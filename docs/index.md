@@ -3,15 +3,15 @@ pageType: home
 
 hero:
   name: Li Qi
-  text: Li Qi\'s blog
-  tagline: Li Qi tagline
+  text: My blog
+  tagline: read now
   actions:
     - theme: brand
-      text: Quick Start
-      link: /guide/
+      text: Read
+      link: /computer/
     - theme: alt
       text: GitHub
-      link: https://github.com/web-infra-dev/rspress
+      link: https://github.com/liqi1997/liqi1997.github.io
   image:
     src: /rspress-icon.png
     alt: Li Qi Logo

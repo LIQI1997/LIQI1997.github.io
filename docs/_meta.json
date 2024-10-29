@@ -1,16 +1,32 @@
 [
   {
-    "text": "Guide",
-    "link": "/guide/",
-    "activeMatch": "/guide/"
+    "text": "Computer",
+    "link": "/computer/",
+    "activeMatch": "/computer/"
   },
   {
-    "text": "Hello World",
-    "link": "/hello/",
-    "activeMatch": "/hello/"
+    "text": "Frontend",
+    "link": "/frontend/",
+    "activeMatch": "/frontend/"
   },
   {
-    "text": "API",
-    "link": "https://rspress.dev/api/index.html"
+    "text": "English",
+    "link": "/english/",
+    "activeMatch": "/english/"
+  },
+  {
+    "text": "Study",
+    "link": "/study/",
+    "activeMatch": "/study/"
+  },
+  {
+    "text": "Reading",
+    "link": "/reading/",
+    "activeMatch": "/reading/"
+  },
+  {
+    "text": "Targets",
+    "link": "/target/",
+    "activeMatch": "/target/"
   }
 ]
