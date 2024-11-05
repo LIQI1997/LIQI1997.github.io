@@ -1,6 +1,59 @@
 # Electron
 
 
+
+
+
+
+
+
+
+store 是从最小化窗口恢复到原来
+show 是显示窗口并聚焦
+setSkipTaskBar true 不显示底部任务栏
+win?.restore()
+    win?.show()
+    win?.setSkipTaskbar(false)
+if (global.win) {  //拉起判断
+            if (global.win.isMinimized()) global.win.restore();
+            global.win.focus();
+        }
+
+win.on('hide', () => {
+    if(global.systemType === EFrameSystemType.darwin) return false
+    if(!win?.isMinimized()){
+      win?.minimize()
+    }
+    if(!handleJudgeSuspenSion(win)){
+      global.winStyle =  win.getSize()
+    }
+    win?.setSkipTaskbar(true)
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+electron-packager . --overwrite 打出绿色包，macOS 直接打成 .app，Windows 达成 .exe
+
+mac 一般打成 dmg 或 pkg 包，Windows 打包成 其他的安装包：msi ？
+
+是否允许应用多实例，也就是双开？多开？也可以通过 requestSingleInstanceLock() 限制单实例：原理：抢占实例运行锁，只有第一个实例才返回 true，后续启动的都返回 false，这时候就可以限制 app.quit()
+一般这时候都要focus 第一个实例，可以在第一个实例中监听 second-instance 事件，
+也就是在第一实例中监听第二实例的启动事件，正常最小化的要恢复窗口
+
+
+
+
+
 win.restore() 从最小化窗口恢复，任务栏还是有的？
 win.show() 从后台恢复，即这个窗口被隐藏起来了，任务栏默认都没有？还是说故意隐藏起来的？
 
@@ -14,7 +67,26 @@ context Isolation 上下文隔离，默认为 true，就是 preload 和 普通�
 上下文是 v8 的全局作用域的概念，每个上下文都有一个独立的 window 对象，彼此隔离，有各自的全局作用域，全局变量，原型链。
 
 
+```js
 
+app.isPackaged
+
+app.setLoginItemSettings({
+  openAtLogin: true,
+})
+
+app.getLoginItemSettings().then((result) => {
+  console.log(result.openAtLogin)
+  if (result.openAtLogin) {
+    // 已经设置开机启动
+    createWindow() // 隐藏窗口，只显示在 tray
+  } else {
+    // 没有设置开机启动
+    alert('')
+  }
+})
+
+```
 
 
 electron/remote
@@ -267,3 +339,76 @@ better-sqlite3
 
 swr
 data fetching lib
+
+
+
+## asar
+
+electron asar
+
+是 electron 项目的前端代码的归档格式，类似于 tar 包，
+
+把前端代码打包成这种格式，好处是，加载快，没有直接暴露代码
+
+npm i -g asar
+
+asar pack dist dist.asar
+
+asar list dist.asar
+
+二进制文件如果用解文字编码的方式打开，会显示乱码字符，可以用 hex 格式打开。
+
+asar 像一个虚拟目录，用一个大文件形式保存了指定目录下所有文件的方式。
+
+所以 nodejs 直接通过 fs 读取 asar 内部的 json 配置文件，是报错的。
+
+可 electron 改变了自身环境中的 nodejs fs，require，process，child_process 等模块，所以可以直接用 fs 读取 asar 内部的文件。
+
+const utils = require('./test.asar/test.js')
+
+fs.readFileSync('./test.asar/file.txt')
+
+
+
+Windows 视频壁纸，会不会是透明的，点击穿透的应用程序，但用 electron 做一个壁纸太恐怖了，内存占用100M+
+
+
+electron 改变了 nodejs 的部分 api，如果想用 nodejs 原生的 api，可以用 original-fs
+
+const fs = require('original-fs')
+fs.readFileSync('./test.asar')
+
+
+
+
+
+
+
+
+
+
+asar 只读，
+
+asar 不能被设置成工作目录，working directory，因为本质上它还是文件。
+
+如果把可执行的二进制文件打包进 asar，这样当有些 nodejs api 读取时，会自动解压出来，并创建临时文件，
+
+比如 fs.open, fs.openSync, process.dlopen, child_process.execFile, child_process.execFileSync
+
+这些临时文件无法被删除？所以不建议把可执行的二进制文件打包进 asar，
+
+而且有些 api 不可以执行这些二进制文件，比如 spawn
+
+所以建议打包 asar 的时候，用 --unpack "{*.node, *.out}" 指定不打包哪些文件，这些文件会被移动到生产资源的 test.asar.unpacked 目录，执行的时候，需要改访问路径。
+
+
+
+先用 electron-builder 打包，修改版本号后再打包，
+
+electron-updater 是全量更新，也就是重新安装 application
+
+
+
+打包只是生成可执行程序，生成安装包，还需要额外的工作，nsis 可以让你定制安装包，比如安装路径，图标，等等。
+
+增量更新：

@@ -36,12 +36,57 @@ DocumentFragment
 ```
 
 
-        window.onunhandledrejection = function(e) {
-            console.log('on unhandled rejection', e)
-        }
- 
-        window.onerror = function(e) {
-            console.log('onerror', e)
-            // 按钮点击事件，会触发
-            // 主线程错误会触发
-        }
+btoa 创建一个 base64 编码的字符串
+atob 解码一个 base64 编码的字符串
+
+
+## url
+判断 url 是否合法
+
+```js
+
+       try {
+        const url = new URL('http://localhost:3000/test.html?name=liqi')
+    //    const url = new URL('localhost:3000/test.html?name=liqi')
+       console.log('protocol', url.protocol)
+       console.log('href', url.href)
+       console.log('origin', url.origin)
+       console.log('port', url.port)
+       console.log('pathname', url.pathname)
+       console.log('search', url.search)
+       console.log('params', url.searchParams.get('name'))
+        url.searchParams.set('name', 'liqi')
+        console.log( url.toString());
+
+       } catch (error) {
+        alert(error.message)
+       }
+
+```
+
+## 处理 searchParams
+
+```js
+    const params = new URLSearchParams('?name=liqi&age=18')
+        console.log( params.get('name'));
+        console.log( params.get('age'));
+```
+
+给一个url拼接 search params，一定要 new URL，再追加，最后 url.tostring()
+
+
+## history
+
+history.replace()
+
+
+## 刷新当前页面
+
+location.load()
+history.go(-1)
+location.href = location.href
+
+
+referrer
+window.opener
+

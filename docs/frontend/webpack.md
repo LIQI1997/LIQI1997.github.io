@@ -1,39 +1,34 @@
 # webpack
 
 
+## 极简入门
 
+下载 webpack 和 webpack-cli，就可以在命令行使用 webpack 命令对 js 文件编译。
 
+webpack 天生就可以解析 import，将多个模块合并，打包成立刻执行函数。
 
+如果要写 es6 的语法，但有的浏览器不支持，得上 babel
 
-copy-webpack-plugin
-一般将静态资源从一个目录copy到另一个目录，还可以做转换
+babel 可以把 es6 代码编译成 es5，具体怎么编译，要用具体的插件，比如把箭头函数编译成普通 function 声明的函数，可以一个一个导入插件，也可以用一个预设，npm 下载下来，就直接用，比如 preset-env
 
-自定义脚手架的意义是封装很多功能，对外暴露函数出去，方便程序员开发时只需要写业务代码，不需要看官方的 api 了。
-但自定义讲究的是命名规范，封装优雅，放在的位置合适，不能来回嵌套，这样的代码就不是好的脚手架。
+编译 react 组件，得上 preset-react
 
+如果要编译 ts 写的 react 组件，那就再上 preset-typescript
 
-grunt
-gulp
+很多es6新增的全局变量，如果用在低版本浏览器上，babel 是没办法凭空变出来的，所以得用 polyfill
 
-webpack 动态打包所有依赖并创建 “依赖图”，用来编译 javascript 模块
+import 文件的时候，如果要配置路径别名，得让 webpack 认识，所以得配置 resolve.alias，在 vs code 中，ts 不认识，得配置 tsconfig.json 的 paths 这样才会有智能提示
 
---save
---save-dev
-区别
+webpack 打包时，处理 js 文件用 babel-loader，写 rules 时，写上 jsx, ts, tsx，这样才能解析对应的后缀名的 js 文件。
 
-npx webpack
-npx 的作用，从当前目录中的 node_modules/.bin 中寻找可执行的二进制文件 webpack
-
-scripts 中定义的命名
-npm run build "build": "webpack" 
-会直接从当前目录中的 node_modules 中寻找可执行的二进制文件
+如果想省略这些后缀名，得在 webpack 的 resolve.extensions 中添加上，这样 webpack 打包时就认识了。
 
 
 
 
 
 
-loader 和 plugin 的区别
+## loader 和 plugin 的区别
 
 loader 负责文件转换，比如加载不同模块的文件，既可以加载
 commonJS 模块，又能加载 ES6 Module，加载 CSS 文件
@@ -209,6 +204,24 @@ new webpack.EnvironmentPlugin({
 
 
 
+## plugins
+
+```js
+const { ProgressPlugin } = require('webpack')
+
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: 'output 666'
+        }),
+
+        new ProgressPlugin({
+            handler(percentage) {
+                console.log('-------', percentage * 100, '%')
+            }
+        })
+    ]
+```
+
 视觉稳定性指标 CLS，Cumulative Layout Shift
 
 
@@ -226,3 +239,69 @@ nslookup 20.205.243.166
 
 corepack nodejs 自带的工具，可以用来安装 yarn，pnpm
 
+
+
+
+
+
+copy-webpack-plugin
+
+一般将静态资源从一个目录copy到另一个目录，还可以做转换
+
+自定义脚手架的意义是封装很多功能，对外暴露函数出去，方便程序员开发时只需要写业务代码，不需要看官方的 api 了。
+但自定义讲究的是命名规范，封装优雅，放在的位置合适，不能来回嵌套，这样的代码就不是好的脚手架。
+
+
+grunt
+gulp
+
+webpack 动态打包所有依赖并创建 “依赖图”，用来编译 javascript 模块
+
+--save
+--save-dev
+区别
+
+npx webpack
+npx 的作用，从当前目录中的 node_modules/.bin 中寻找可执行的二进制文件 webpack
+
+scripts 中定义的命名
+npm run build "build": "webpack" 
+会直接从当前目录中的 node_modules 中寻找可执行的二进制文件
+
+
+
+## tree shaking
+
+tree shaking 是打包工具实现的，所以要是想知道哪种 import 写法支持 tree shaking，得去研究打包工具
+
+
+
+## HMR
+
+hot module replacement
+
+模块热更替
+
+在开发环境下才有意义。
+
+即不用程序员主动刷新浏览器，代码修改完，页面的内容自动发生变化。
+
+style-loader 和 css-loader 内部就支持了 HMR，你修改了 index.css 文件中的样式，不用刷新浏览器，浏览器自动就会使用最新的样式。
+
+因为它们内部用了 module.hot.accept
+
+webpack4 dev-server 默认就是开启的，可以关闭，自己手动开启。
+
+```js
+if (module.hot) {
+    module.hot.accept('test.js', function() {
+        runAnyMethodInTest()
+    })
+}
+```
+
+
+## 其他打包工具
+
+rspack
+rsbuild

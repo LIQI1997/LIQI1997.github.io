@@ -1,210 +1,63 @@
-# Markdown & MDX
+# 计算机
 
-Rspress supports not only Markdown but also [MDX](https://mdxjs.com/), a powerful way to develop content.
 
-## Markdown
 
-MDX is a superset of Markdown, which means you can write Markdown files as usual. For example:
+## 开发建议
 
-```md
-# Hello World
-```
+开发软件没必要优化那么多，软件最重要的是业务的价值和实现业务的最佳实践，即不出任何问题，高效稳定的运行。
+而有些小优化的点，能不做就不做。
 
-## Use Component
+比如短信验证码，用户如果想换其他手机号，那就刷新页面，重新填即可。
 
-When you want to use React components in Markdown files, you should name your files with `.mdx` extension. For example:
+短信验证码的倒计时没必要把用户的手机号码和倒计时关联起来存在本地。
 
-```mdx
-// docs/index.mdx
-import { CustomComponent } from './custom';
+如果用户不换手机号，刷新页面，后端那里拦截即可
 
-# Hello World
 
-<CustomComponent />
-```
+## 移动端
 
-## Front Matter
+开发移动端时，一定要注意不同设备的样式。
 
-You can add Front Matter at the beginning of your Markdown file, which is a YAML-formatted object that defines some metadata. For example:
 
-```yaml
----
-title: Hello World
----
-```
+## 国际化
 
-> Note: By default, Rspress uses h1 headings as html headings.
+国际化分前端国际化和后端国际化，前端国际化，通过获取os默认语言，切换语言表，把页面上固定命名给替换掉即可。
+后端国际化，返回的错误 提示都要做。
 
-You can also access properties defined in Front Matter in the body, for example:
 
-```markdown
----
-title: Hello World
----
 
-# {frontmatter.title}
-```
+请求数据时，如果300ms内数据就返回了，那如果还加载loading的话，就会有闪烁问题，所以很常见的做法是，setLoading 时加个 300ms 的延迟，如果300ms内拿到了响应，就把延迟定时器取消即可。
 
-The previously defined properties will be passed to the component as `frontmatter` properties. So the final output will be:
+但我觉得这样会有一点卡顿感，虽然微不足道，但还是能感觉出来。
+
+所以我觉得如果是整个页面，或者一张卡片的内容，如果是 loading 动画，那300ms 内就没有必要显示了，如果是按钮，那 loading 立刻显示，还是有必要的。
+
+300ms 也是可以调整的，但约定俗成的做法都是 300ms
 
 ```html
-<h1>Hello World</h1>
+<button id="btn">get data</button>
+  <script>
+      document.getElementById('btn').addEventListener('click',function () {
+        // this.innerText = 'loading...'
+        // setTimeout(() => {
+        //   this.innerText = 'result'
+        // }, 200);
+
+
+        const id = setTimeout(() => {
+          this.innerText = 'loading...'
+        }, 300);
+        setTimeout(() => {
+          this.innerText = 'result'
+          clearTimeout(id)
+        }, 200);
+      })
+  </script>
 ```
 
-## Custom Container
 
-You can use the `:::` syntax to create custom containers and support custom titles. For example:
+## 多租户系统
 
-**Input:**
+当一个业务系统是给一个公司开发的时候，所有的表都是这个企业下的，比如员工表。
 
-```markdown
-:::tip
-This is a `block` of type `tip`
-:::
-
-:::info
-This is a `block` of type `info`
-:::
-
-:::warning
-This is a `block` of type `warning`
-:::
-
-:::danger
-This is a `block` of type `danger`
-:::
-
-::: details
-This is a `block` of type `details`
-:::
-
-:::tip Custom Title
-This is a `block` of `Custom Title`
-:::
-
-:::tip{title="Custom Title"}
-This is a `block` of `Custom Title`
-:::
-```
-
-**Output:**
-
-:::tip
-This is a `block` of type `tip`
-:::
-
-:::info
-This is a `block` of type `info`
-:::
-
-:::warning
-This is a `block` of type `warning`
-:::
-
-:::danger
-This is a `block` of type `danger`
-:::
-
-::: details
-This is a `block` of type `details`
-:::
-
-:::tip Custom Title
-This is a `block` of `Custom Title`
-:::
-
-:::tip{title="Custom Title"}
-This is a `block` of `Custom Title`
-:::
-
-## Code Block
-
-### Basic Usage
-
-You can use the \`\`\` syntax to create code blocks and support custom titles. For example:
-
-**Input:**
-
-````md
-```js
-console.log('Hello World');
-```
-
-```js title="hello.js"
-console.log('Hello World');
-```
-````
-
-**Output:**
-
-```js
-console.log('Hello World');
-```
-
-```js title="hello.js"
-console.log('Hello World');
-```
-
-### Show Line Numbers
-
-If you want to display line numbers, you can enable the `showLineNumbers` option in the config file:
-
-```ts title="rspress.config.ts"
-export default {
-  // ...
-  markdown: {
-    showLineNumbers: true,
-  },
-};
-```
-
-### Wrap Code
-
-If you want to wrap long code line by default, you can enable the `defaultWrapCode` option in the config file:
-
-```ts title="rspress.config.ts"
-export default {
-  // ...
-  markdown: {
-    defaultWrapCode: true,
-  },
-};
-```
-
-### Line Highlighting
-
-You can also apply line highlighting and code block title at the same time, for example:
-
-**Input:**
-
-````md
-```js title="hello.js" {1,3-5}
-console.log('Hello World');
-
-const a = 1;
-
-console.log(a);
-
-const b = 2;
-
-console.log(b);
-```
-````
-
-**Ouput:**
-
-```js title="hello.js" {1,3-5}
-console.log('Hello World');
-
-const a = 1;
-
-console.log(a);
-
-const b = 2;
-
-console.log(b);
-```
-
-## Rustify MDX compiler
-
-You can enable Rustify MDX compiler by following config:
+可是现在需求变动，这个系统要支持其他的公司，实现思路有一种：注册企业的时候，给这个企业建立一个数据库，并且把所有的数据表给建立起来，后续这个企业下所有的操作，都是在这个新的数据库下进行的。

@@ -38,7 +38,17 @@ export default App
 ```
 
 
+## useEffect
 
+第一次挂载封装一个 hook
+
+第一次更新才执行，封装一个 hook
+
+想在 react 组件中定义一个计时器，需要在 use effect [] 中注册，在组件卸载时删除。如果需要提前删除，那就得把计时器的 id 通过 useRef 暴露出去
+
+这样其实就可以封装一个自定义 hook 了
+
+useInterval
 
 
 
@@ -67,6 +77,10 @@ webpack 虽然慢，但是生态成熟，还是值得使用的，毕竟很多公
 
 什么时候封装 hook？在需要用到组件的副作用，或者数据需要参与视图渲染的时候。
 什么时候定义 state，当需要触发视图重新渲染，或者需要依赖它来执行 effect 的时候。
+
+
+为什么现在市面上有很多封装好的 hook，因为都想把 js 常见的代码块封装到 react 组件里面去，而 hook 就让 react 组件很容易集成，因为无非就三样东西，useState，useEffect，useRef
+
 
  因为用户的会员信息，每次进入组件都要请求，而用户的基本信息，可以从 local storage 中读取，因为登录成功后都会浏览器本地缓存好 uid，mobile，email，这里就不用再次请求了，只需要每次 report 的时候读取 local storage 中读取即可。
 而换到新页面的时候，重新请求用户的会员信息即可，比较方便。
@@ -555,3 +569,9 @@ export default App
 
 
 ahooks useRequest 处理异步
+
+
+
+如何封装一个阻止冒泡的组件，用 React.createElement(OldElement)
+
+react-is 判断是否是 react 的数据类型

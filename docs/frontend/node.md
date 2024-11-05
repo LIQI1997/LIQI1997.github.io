@@ -1,17 +1,50 @@
 # Node.js
 
-export NODE_OPTIONS=--openssl-legacy-provider
+## path
 
+```js
+console.log(path.join(__dirname, 'dist'))
+console.log(path.resolve('dist'))
+
+console.log(process.cwd())
+```
+
+__dirname 是执行脚本时的目录，也就是当前目录的绝对路径
+__filename 是执行脚本的绝对路径
+
+path.join 是拼接路径，将所有的参数拼接在一起，不同os用不同的拼接符号
+path.resolve 是获取指定路径的绝对路径，比如上面两条语句，其实是一个效果
+
+process.cwd() 是获取当前目录的绝对路径
+
+## nvm
+node version manger
+
+nvm list
+nvm install 18
+nvm use 18.20.4
+
+node -v
+npm -v
+
+
+nodejs 非阻塞 IO，事件驱动，跟传统的语言比如 Java，创建新线程，在新的线程处理 IO，相比较，仅仅是由解释器创建了新的线程，在新的线程中操作IO，nodejs 主线程不参与线程管理，这样就实现了最大化的性能优化。
+
+nodejs 全局对象 global
+
+
+
+```js
 process.platform; //  'darwin'
 process.arch; // 'arm64'
 os.arch(); // 'arm64' 'x64'
 os.hostname(); // 'liqideMacBook-Air.local'
 os.release(); // 获取os 版本号
 process.cwd() 当前项目的根路径
+```
 
 nodejs 以 utf-8 编码读取文件，读出来的是字符串，再通过 json.parse 反序列化成js对象。
 
-nodejs 全局对象 global
 
 console.log(__dirname) // 当前运行的文件所在的目录的绝对路径
 console.log(process.cwd()) // 效果同上
@@ -334,12 +367,30 @@ em.on('hello', (msg) => {
 em.emit('hello', 'you')
 em.emit('hello', 'you2')
 
-## nvm
-node version manger
 
-nvm list
-nvm install 18
-nvm use 18.20.4
 
-node -v
-npm -v
+export NODE_OPTIONS=--openssl-legacy-provider
+
+
+nodejs 启动 power shell 执行脚本
+const { spawn } = require('child_process')
+const path = require('path')
+
+const ping = spawn('powershell.exe', [path.join(__dirname, './test.ps1')])
+
+ping.stdout.on('data', data => {
+  console.log('data', data.toString())
+})
+ping.stderr.on('data', data => {
+  console.log('error', data)
+})
+ping.on('close', code => {
+  console.log('process over', code)
+})
+
+
+fs.access(path)
+
+
+glob，fastglob 主要是用来遍历文件时匹配指定的文件，而我的需求是快速遍历怎么目录
+

@@ -1,6 +1,7 @@
 [
   "index",
   "node",
+  "js",
   "ts",
   "react",
   "electron",
@@ -10,5 +11,17 @@
   "css",
   "svg",
   "webpack",
-  "dom"
+  "dom",
+  "nodejs-log",
+
+  "marquee",
+  "canvas",
+  "flutter",
+  "ico",
+  "file",
+  "auth",
+
+  "http",
+  "error",
+  "async"
 ]
