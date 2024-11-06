@@ -20,13 +20,8 @@
     "activeMatch": "/study/"
   },
   {
-    "text": "Reading",
-    "link": "/reading/",
-    "activeMatch": "/reading/"
-  },
-  {
-    "text": "Targets",
-    "link": "/target/",
-    "activeMatch": "/target/"
+    "text": "Fitness",
+    "link": "/fitness/",
+    "activeMatch": "/fitness/"
   }
 ]

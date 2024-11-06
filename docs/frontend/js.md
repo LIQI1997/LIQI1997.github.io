@@ -1,5 +1,49 @@
 # JavaScript
 
+JavaScript
+
+
+数据类型：number/string/boolean/null/undefined/object/symbol/bigint
+
+typeof 运算符返回结果
+
+数值进制：十进制/十六进制/八进制/二进制
+
+对象：object/array/function
+
+标准对象，内置对象：console/Object 构造函数/属性描述对象/包装对象：Boolean String Number
+
+以及它们的 API
+
+Math/Date/RegExp/JSON
+
+运算符：算术运算符/比较运算符/布尔运算符/二进制位运算符
+
+数据类型转换
+
+错误处理，异常处理
+
+编程风格
+
+面向对象编程 new/this/继承闭包
+
+严格模式
+
+异步，定时器
+
+dom：html元素，node，document，element，css，常见元素：a/img/form/input
+
+事件：event，鼠标，键盘，进度，表单，触摸，拖拽
+
+浏览器模型
+
+Es6:
+
+promise
+
+
+
+
 js 运行原理，V8 引擎，
 
 内存堆：给对象分配内存的地方
@@ -168,3 +212,160 @@ function isLeapYear(year: number) {
 
 
 所以可以把外部函数当做一个对象，它的局部变量都是属性，而闭包就是这个对象的方法，可以读取并修改属性。
+
+
+
+得到布尔值
+!!null;
+
+
+函数接受一个对象作为参数的好处是不用记参数的顺序。
+
+Get last element
+arr[arr.length-1]
+arr.slice(-1)_[last_element]
+
+arr.slice(0) //copy array
+arr.slice() // copy array
+
+两个参数，开始索引包括，不包括后面参数代表的索引
+
+不要用	if/else	来判断	===
+
+用	switch，case，break；return；需要返回值就return值，不需要就用break；
+
+判断对象是否为空，Object.keys(obj).length===0
+
+不要用delete删除数组中的元素，用splice(0,1);来删。
+
+Delete删除后，不会重置length，那个索引的值是undefined
+
+New URLSearchParams(winodw.location.search)
+
+定义对象时属性根据变量的值来设定
+
+Const name=‘liquid’
+obj[name]=tests
+
+Let	obj={
+	[name]:test
+}
+
+类数组：属性都是数字；有length属性；没有数组的方法
+Array.prototype.slice.call(arguments)
+[…arguments]
+
+
+
+
+
+Js 正则
+
+\d 匹配一个数字
+\D 匹配一个非数字
+
+replace number substring in string
+‘Test123’.replace(/\d/g, ‘’);
+
+Reverse a string
+
+‘1,2,3’.split(‘,’).reverse().join(‘,’)
+
+Transfer number 
+Let num = 2
+num.toString(16)
+
+Set number after dot
+Let num = 0.123
+num.toFixed(2)
+
+Clear a array
+Let arr = [1,2,3]
+arr.length = 0
+
+Get max/min value in array
+
+Let arr = [1,2,3]
+Math.max(…arr);
+Math.min(…arr)
+
+
+Bullish value assign
+Let num = null ?? ‘123’
+
+Filter null value in array
+
+Let num = [1,2,3, null, undefined]
+Num.filter(Boolean)
+
+Use array includes function to easy if/else
+
+If (num === ‘a’ || num === ‘b’) {
+}
+
+If ([‘a’,’b’].includes(num)) {
+}
+
+Declare variable
+Let num1, num2 = 10;
+
+Null check
+Let num = null || 123
+Num = null ?? 123
+
+Operator simplify
+Num = num * 2
+Num *= 2
+
+If (test) {
+	callback(test)
+}
+
+Test && callback();
+
+Number render type
+10000
+Let num = 1e4;
+
+Concat a array
+Let arr = [1,2,3]
+Let arr2 = arr.concat([4,5,6])
+
+Let arr3 = […arr, …arr2];
+
+Clone a array
+Let arr = Arr.slice()
+Let arr = […arr];
+
+Translate string to number
+parseInt(‘123’)
+parseFloat(‘3.14’)
+
++’3.14’
++’123’
+
+Find a value in array
+arr.find(item => item.name === ‘liqi’)
+
+~ ? 按位操作
+If (!~arr.indexOf(item)) {}
+
+Object.values(obj)
+Object.entries(obj)
+
+‘Test’.repeat(10)
+
+Get substring in string
+Str[2]
+str.charAt(2)
+
+2**3
+Math.pow(2,3)
+
+解构复制/ rename
+
+Assign data in array or object
+
+Array filter same
+
+Filter to find

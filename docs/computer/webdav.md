@@ -1,15 +1,13 @@
 # webdav
 
 
-WebDAV 是一个基于 HTTP 协议的协议，用来共享文件。
+WebDAV 是一个基于 HTTP 协议的协议，用来管理服务器上的文件，如查询文件和文件夹内容，创建文件和文件夹，修改文件内容，删除文件等等。
 
-通过 http 协议来管理服务器上的文件，查询文件和文件夹内容，创建新文件和文件夹，修改文件内容，删除文件
+可以自己搭建 webdav 服务端。
 
-可以自己搭建 webdav 服务端，也可以用123pan搭建好的 webdav 服务
-
-webdav 实现原理：通过 http 协议去管理服务器上的文件
-
+```bash
 npm i webdav
+```
 
 ```js
 import { createClient } from 'webdav'
@@ -26,9 +24,9 @@ const client = createClient('https:/hostname:port', {
 // })
 
 client.getFileContents('/test.html', { format: 'text' }).then(res => {
-  console.log('test js content', res)
+  console.log('res', res)
 
-  saveContent(res + '666 李其').then(res => {
+  saveContent(res + '666').then(res => {
     console.log('save res', res)
   }).catch(err => {
     console.log('err', err)

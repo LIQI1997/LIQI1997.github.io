@@ -1,7 +1,5 @@
 # 计算机
 
-
-
 ## 开发建议
 
 开发软件没必要优化那么多，软件最重要的是业务的价值和实现业务的最佳实践，即不出任何问题，高效稳定的运行。
@@ -13,18 +11,16 @@
 
 如果用户不换手机号，刷新页面，后端那里拦截即可
 
-
 ## 移动端
 
 开发移动端时，一定要注意不同设备的样式。
 
-
 ## 国际化
 
 国际化分前端国际化和后端国际化，前端国际化，通过获取os默认语言，切换语言表，把页面上固定命名给替换掉即可。
-后端国际化，返回的错误 提示都要做。
+后端国际化，返回的错误提示都要做。
 
-
+## 数据延迟
 
 请求数据时，如果300ms内数据就返回了，那如果还加载loading的话，就会有闪烁问题，所以很常见的做法是，setLoading 时加个 300ms 的延迟，如果300ms内拿到了响应，就把延迟定时器取消即可。
 
@@ -37,13 +33,14 @@
 ```html
 <button id="btn">get data</button>
   <script>
-      document.getElementById('btn').addEventListener('click',function () {
+      document.getElementById('btn').addEventListener('click', function () {
+        // 这样就会有闪烁，用户体验就差
         // this.innerText = 'loading...'
         // setTimeout(() => {
         //   this.innerText = 'result'
         // }, 200);
 
-
+        // 这样效果就好点
         const id = setTimeout(() => {
           this.innerText = 'loading...'
         }, 300);
@@ -54,7 +51,6 @@
       })
   </script>
 ```
-
 
 ## 多租户系统
 

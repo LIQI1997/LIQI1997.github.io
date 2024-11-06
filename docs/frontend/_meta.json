@@ -23,5 +23,6 @@
 
   "http",
   "error",
-  "async"
+  "async",
+  "express"
 ]

@@ -159,11 +159,35 @@
 - hybrid 混合
 
 ## MVP
-Minimum Viable Product
-最小可行性产品
+Minimum Viable Product，最小可行性产品
 
 ## RTF
 
-Rich Text Format，富文本格式
+Rich Text Format，富文本格式，微软开发的跨平台文档格式
 
-微软开发的跨平台文档格式
+## Whois
+
+who is 协议，查询域名信息的传输协议。
+
+
+## NTP
+
+Network time protocol，时间服务器
+
+## IMAP
+
+internet message access protocol，接受电子邮件的协议。
+
+## SMTP
+
+simple mail transfer protocol，推送协议，用于发送邮件。
+
+
+## Pop3
+
+post office protocol 3 下载电子邮件的协议。
+
+
+## OSS
+
+Object Storage Service
